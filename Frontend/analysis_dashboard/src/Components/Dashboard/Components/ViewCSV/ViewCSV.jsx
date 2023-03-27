@@ -1,0 +1,222 @@
+import React from 'react'
+import "./ViewCSV.css"
+import { useState } from "react"
+
+function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
+    const [tableState, setTableState] = useState("T");
+  return (
+    <>
+        {analysisTarget === "student" ? <>
+        <div className='student_btn_options'>
+            <button id="T" onClick={() => {setTableState("T"); setCsvData([])}}>
+                Theory
+            </button>
+            <button id="TL" onClick={() => {setTableState("TL"); setCsvData([])}}>
+                Theory + Lab
+            </button>
+            <button id="TLJ" onClick={() => {setTableState("TLE"); setCsvData([])}}>
+                Theory + Lab + J Component
+            </button>
+        </div>
+        {tableState === "T" ? <div className = "ViewCSVMain">
+            <table>
+                <thead>
+                    <tr>
+                        <th className = "tableHeaders">No.</th>
+                        <th className = "tableHeaders">CAT1</th>
+                        <th className = "tableHeaders">CAT2</th>
+                        <th className = "tableHeaders">DA1</th>
+                        <th className = "tableHeaders">DA2</th>
+                        <th className = "tableHeaders">DA3</th>
+                        <th className = "tableHeaders">FAT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {csvData.length ? (
+                        csvData.map((user, index) => (
+                            <tr key = {index}>
+                                <td>{index + 1}</td>
+                                <td>{user.CAT1}</td>
+                                <td>{user.CAT2}</td>
+                                <td>{user.DA1}</td>
+                                <td>{user.DA2}</td>
+                                <td>{user.DA3}</td>
+                                <td>{user.FAT}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <td colSpan="4">No Data found.</td>
+                    )}
+                </tbody>
+            </table>
+        </div>
+        :
+        tableState === "TL" ? <div className = "ViewCSVMain">
+        <table>
+            <thead>
+                <tr>
+                    <th className = "tableHeaders">No.</th>
+                    <th className = "tableHeaders">CAT1</th>
+                    <th className = "tableHeaders">CAT2</th>
+                    <th className = "tableHeaders">DA1</th>
+                    <th className = "tableHeaders">DA2</th>
+                    <th className = "tableHeaders">DA3</th>
+                    <th className = "tableHeaders">FAT</th>
+                    <th className = "tableHeaders">LAB1</th>
+                    <th className = "tableHeaders">LAB2</th>
+                    <th className = "tableHeaders">LAB3</th>
+                    <th className = "tableHeaders">LAB4</th>
+                    <th className = "tableHeaders">LAB5</th>
+                    <th className = "tableHeaders">LAB6</th>
+                    <th className = "tableHeaders">LABFAT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {csvData.length ? (
+                    csvData.map((user, index) => (
+                        <tr key = {index}>
+                            <td>{index + 1}</td>
+                            <td>{user.CAT1}</td>
+                            <td>{user.CAT2}</td>
+                            <td>{user.DA1}</td>
+                            <td>{user.DA2}</td>
+                            <td>{user.DA3}</td>
+                            <td>{user.FAT}</td>
+                            <td>{user.LAB1}</td>
+                            <td>{user.LAB2}</td>
+                            <td>{user.LAB3}</td>
+                            <td>{user.LAB4}</td>
+                            <td>{user.LAB5}</td>
+                            <td>{user.LAB6}</td>
+                            <td>{user.LFAT}</td>
+                        </tr>
+                    ))
+                ) : (
+                    <td colSpan="4">No Data found.</td>
+                )}
+            </tbody>
+        </table>
+    </div>
+        :
+        tableState === "TLE" ? <div className = "ViewCSVMain">
+        <table>
+            <thead>
+                <tr>
+                    <th className = "tableHeaders">No.</th>
+                    <th className = "tableHeaders">CAT1</th>
+                    <th className = "tableHeaders">CAT2</th>
+                    <th className = "tableHeaders">DA1</th>
+                    <th className = "tableHeaders">DA2</th>
+                    <th className = "tableHeaders">DA3</th>
+                    <th className = "tableHeaders">FAT</th>
+                    <th className = "tableHeaders">LAB1</th>
+                    <th className = "tableHeaders">LAB2</th>
+                    <th className = "tableHeaders">LAB3</th>
+                    <th className = "tableHeaders">LAB4</th>
+                    <th className = "tableHeaders">LAB5</th>
+                    <th className = "tableHeaders">LAB6</th>
+                    <th className = "tableHeaders">LABFAT</th>
+                    <th className = "tableHeaders">REV1</th>
+                    <th className = "tableHeaders">REV2</th>
+                    <th className = "tableHeaders">REV3</th>
+                </tr>
+            </thead>
+            <tbody>
+                {csvData.length ? (
+                    csvData.map((user, index) => (
+                        <tr key = {index}>
+                            <td>{index + 1}</td>
+                            <td>{user.CAT1}</td>
+                            <td>{user.CAT2}</td>
+                            <td>{user.DA1}</td>
+                            <td>{user.DA2}</td>
+                            <td>{user.DA3}</td>
+                            <td>{user.FAT}</td>
+                            <td>{user.LAB1}</td>
+                            <td>{user.LAB2}</td>
+                            <td>{user.LAB3}</td>
+                            <td>{user.LAB4}</td>
+                            <td>{user.LAB5}</td>
+                            <td>{user.LAB6}</td>
+                            <td>{user.LFAT}</td>
+                            <td>{user.REV1}</td>
+                            <td>{user.REV2}</td>
+                            <td>{user.REV3}</td>
+                        </tr>
+                    ))
+                ) : (
+                    <td colSpan="4">No Data found.</td>
+                )}
+            </tbody>
+        </table>
+        </div>
+        :
+        setTableState("T")}
+        </>
+        :
+        <>
+        <div className = "ViewCSVMain">
+            <table id="facultyTable">
+                <thead>
+                    <tr>
+                        <th className = "tableHeadersFaculty">No.</th>
+                        <th className = "tableHeadersFaculty">CGPA</th>
+                        <th className = "tableHeadersFaculty">Marks</th>
+                        <th className = "tableHeadersFaculty">Pass Ratio</th>
+                        <th className = "tableHeadersFaculty">Resource Materials</th>
+                        <th className = "tableHeadersFaculty">Subject Knowledge</th>
+                        <th className = "tableHeadersFaculty">Audibility</th>
+                        <th className = "tableHeadersFaculty">Teaching Methods</th>
+                        <th className = "tableHeadersFaculty">Question Paper</th>
+                        <th className = "tableHeadersFaculty">Syllabus Completion</th>
+                        <th className = "tableHeadersFaculty">Assignments</th>
+                        <th className = "tableHeadersFaculty">Oppurtunities</th>
+                        <th className = "tableHeadersFaculty">Presentation</th>
+                        <th className = "tableHeadersFaculty">Publication</th>
+                        <th className = "tableHeadersFaculty">Guidance</th>
+                        <th className = "tableHeadersFaculty">Seminar</th>
+                        <th className = "tableHeadersFaculty">IV</th>
+                        <th className = "tableHeadersFaculty">Club Contribution</th>
+                        <th className = "tableHeadersFaculty">Guest Lecture</th>
+                        <th className = "tableHeadersFaculty">Ratings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {csvData.length ? (
+                        csvData.map((user, index) => (
+                            <tr key = {index}>
+                                <td>{index + 1}</td>
+                                <td>{user.CGPA}</td>
+                                <td>{user.Marks}</td>
+                                <td>{user["Pass Ratio"]}</td>
+                                <td>{user["Resource Materials"]}</td>
+                                <td>{user["Subject Knowledge"]}</td>
+                                <td>{user["Audibility"]}</td>
+                                <td>{user["Teaching Methods"]}</td>
+                                <td>{user["Question Paper"]}</td>
+                                <td>{user["Syllabus Completion"]}</td>
+                                <td>{user.Assignments}</td>
+                                <td>{user.Oppurtunities}</td>
+                                <td>{user.Presentation}</td>
+                                <td>{user.Publication}</td>
+                                <td>{user.Guidance}</td>
+                                <td>{user.Seminar}</td>
+                                <td>{user.IV}</td>
+                                <td>{user["Club Contribution"]}</td>
+                                <td>{user["Guest Lecture"]}</td>
+                                <td>{user.Ratings}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <td colSpan="4">No Data found.</td>
+                    )}
+                </tbody>
+            </table>
+        </div>
+        </>
+    }
+    </>
+  )
+}
+
+export default ViewCSV

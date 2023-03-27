@@ -1,0 +1,21 @@
+.LoginDetailsMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#username, #pwd {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+#login {
+    border-width: 0.5px;
+    background-color: rgb(131, 238, 70);
+    color: black;
+    padding: 10px;
+    font-weight: 300;
+    border-radius: 8px;
+}

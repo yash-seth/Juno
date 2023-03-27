@@ -1,0 +1,11 @@
+.VitLogoMain {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#VIT-Logo {
+    height: 300px;
+    width: 500px;
+}

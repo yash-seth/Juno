@@ -1,0 +1,6 @@
+potential factors:
+- attendance
+- number of credits of course - that is hours of class per week as a 
+parameter to the model
+- internals - da1, da2, da3
+- cgpa
