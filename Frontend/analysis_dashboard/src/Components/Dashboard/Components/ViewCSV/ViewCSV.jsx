@@ -2,22 +2,42 @@ import React from 'react'
 import "./ViewCSV.css"
 import { useState } from "react"
 
-function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
-    const [tableState, setTableState] = useState("T");
+function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
   return (
     <>
         {analysisTarget === "student" ? <>
         <div className='student_btn_options'>
-            <button id="T" onClick={() => {setTableState("T"); setCsvData([])}}>
+            <button id="T" onClick={() => {setTableState("T"); setCsvData({"students": []}); setResult({"grades": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}}>
                 Theory
             </button>
-            <button id="TL" onClick={() => {setTableState("TL"); setCsvData([])}}>
+            <button id="TL" onClick={() => {setTableState("TL"); setCsvData({"students": []});setResult({"grades": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}}>
                 Theory + Lab
             </button>
-            <button id="TLJ" onClick={() => {setTableState("TLE"); setCsvData([])}}>
+            <button id="TLJ" onClick={() => {setTableState("TLJ"); setCsvData({"students": []});setResult({"grades": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}}>
                 Theory + Lab + J Component
             </button>
         </div>
+        {result.grades.length !== 0 ? (
+        <div className='predictionDetails'>
+            <div id = "predMean">
+                <b>Mean:</b> {result.mean.toFixed(3)}
+            </div>
+            <div id = "predSD">
+                <b>SD:</b> {result.sd.toFixed(3)}
+            </div>
+        </div>
+        ) :
+        (<span></span>)
+        }
         {tableState === "T" ? <div className = "ViewCSVMain">
             <table>
                 <thead>
@@ -28,12 +48,13 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                         <th className = "tableHeaders">DA1</th>
                         <th className = "tableHeaders">DA2</th>
                         <th className = "tableHeaders">DA3</th>
-                        <th className = "tableHeaders">FAT</th>
+                        <th className = "tableHeaders">Predicted FAT Marks</th>
+                        <th className = "tableHeaders">Predicted Grade Marks</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {csvData.length ? (
-                        csvData.map((user, index) => (
+                    {csvData["students"].length && result.grades.length !== 0 ? (
+                        csvData["students"].map((user, index) => (
                             <tr key = {index}>
                                 <td>{index + 1}</td>
                                 <td>{user.CAT1}</td>
@@ -41,7 +62,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                                 <td>{user.DA1}</td>
                                 <td>{user.DA2}</td>
                                 <td>{user.DA3}</td>
-                                <td>{user.FAT}</td>
+                                <td>{result.fatMarks[index].toFixed(3)}</td>
+                                <td>{result.grades[index]}</td>
                             </tr>
                         ))
                     ) : (
@@ -61,19 +83,20 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                     <th className = "tableHeaders">DA1</th>
                     <th className = "tableHeaders">DA2</th>
                     <th className = "tableHeaders">DA3</th>
-                    <th className = "tableHeaders">FAT</th>
+                    <th className = "tableHeaders">Predicted FAT Marks</th>
                     <th className = "tableHeaders">LAB1</th>
                     <th className = "tableHeaders">LAB2</th>
                     <th className = "tableHeaders">LAB3</th>
                     <th className = "tableHeaders">LAB4</th>
                     <th className = "tableHeaders">LAB5</th>
                     <th className = "tableHeaders">LAB6</th>
-                    <th className = "tableHeaders">LABFAT</th>
+                    <th className = "tableHeaders">Predicted LABFAT Marks</th>
+                    <th className = "tableHeaders">Predicted Grade</th>
                 </tr>
             </thead>
             <tbody>
-                {csvData.length ? (
-                    csvData.map((user, index) => (
+                {csvData["students"].length && result.grades.length !== 0? (
+                    csvData["students"].map((user, index) => (
                         <tr key = {index}>
                             <td>{index + 1}</td>
                             <td>{user.CAT1}</td>
@@ -81,14 +104,15 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                             <td>{user.DA1}</td>
                             <td>{user.DA2}</td>
                             <td>{user.DA3}</td>
-                            <td>{user.FAT}</td>
+                            <td>{result.fatMarks[index].toFixed(3)}</td>
                             <td>{user.LAB1}</td>
                             <td>{user.LAB2}</td>
                             <td>{user.LAB3}</td>
                             <td>{user.LAB4}</td>
                             <td>{user.LAB5}</td>
                             <td>{user.LAB6}</td>
-                            <td>{user.LFAT}</td>
+                            <td>{result.labFatMarks[index].toFixed(3)}</td>
+                            <td>{result.grades[index]}</td>
                         </tr>
                     ))
                 ) : (
@@ -98,7 +122,7 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
         </table>
     </div>
         :
-        tableState === "TLE" ? <div className = "ViewCSVMain">
+        tableState === "TLJ" ? <div className = "ViewCSVMain">
         <table>
             <thead>
                 <tr>
@@ -122,8 +146,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                 </tr>
             </thead>
             <tbody>
-                {csvData.length ? (
-                    csvData.map((user, index) => (
+                {csvData["students"].length ? (
+                    csvData["students"].map((user, index) => (
                         <tr key = {index}>
                             <td>{index + 1}</td>
                             <td>{user.CAT1}</td>
@@ -182,8 +206,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget}) {
                     </tr>
                 </thead>
                 <tbody>
-                    {csvData.length ? (
-                        csvData.map((user, index) => (
+                    {csvData["students"].length ? (
+                        csvData["students"].map((user, index) => (
                             <tr key = {index}>
                                 <td>{index + 1}</td>
                                 <td>{user.CGPA}</td>

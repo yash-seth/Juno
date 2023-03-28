@@ -3,7 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 20px 0px;
+    background-color: rgb(246, 245, 228);
 }
 
 .tableHeaders {
@@ -33,4 +34,11 @@
     padding: 10px;
     font-weight: 700;
     border-radius: 8px;
+}
+
+.predictionDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

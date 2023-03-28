@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    re_path(r'^theory$', views.theoryModel),
+    re_path(r'^theory$', views.gradePredTheory),
+    re_path(r'^TL$', views.gradePredTL),
 ] 

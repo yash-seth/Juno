@@ -7,12 +7,17 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function Dashboard() {
     const [analysisTarget, setAnalysisTarget] = useState("student");
+    const [result, setResult] = useState({"grades": [],
+    "fatMarks": [],
+    "mean": 0,
+    "sd": 0})
+    const [tableState, setTableState] = useState("T");
     const { isAuthenticated } = useAuth0();
-    const [csvData, setCsvData] = useState([]);
+    const [csvData, setCsvData] = useState({"students": []});
     if (isAuthenticated) return (
     <div className='DashboardMain'>
-        <DashboardNav csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget}/>
-        <ViewCSV csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget}/>
+        <DashboardNav csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget} result = {result} setResult={setResult} tableState={tableState} setTableState={setTableState}/>
+        <ViewCSV csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget} result = {result} setResult={setResult} tableState={tableState} setTableState={setTableState}/>
     </div>
   )
 }
