@@ -25,7 +25,7 @@ def theoryModel(request):
 @api_view(['POST'])
 def gradePredTheory(request):
     # getting the student data with fields CAT1	CAT2 DA1	DA2	DA3	
-    studentData = request.data["students"]
+    studentData = request.data["records"]
 
     studentDataList = []
     studentRecord = []
@@ -99,7 +99,7 @@ def gradePredTheory(request):
 @api_view(['POST'])
 def gradePredTL(request):
     # getting the student data with fields CAT1	CAT2 DA1	DA2	DA3	LAB1	LAB2	LAB3	LAB4	LAB5	LAB6	
-    studentData = request.data["students"]
+    studentData = request.data["records"]
 
     print(studentData)
     studentDataListTheory = []
@@ -154,7 +154,7 @@ def gradePredTL(request):
     pickled_model_lab = pickle.load(model)
     model.close()
 
-    # predicting fat marks
+    # predicting lab fat marks
     y_pred_lab = pickled_model_lab.predict(studentDataListLab)
 
     # formula for theory + lab course: thetot=internal+(0.4*fat)
@@ -196,5 +196,192 @@ def gradePredTL(request):
         "labFatMarks": y_pred_lab.tolist(),
         "mean": Mean,
         "sd": sd
+    }
+    return JsonResponse(prediction)
+
+
+# Function for student case - Theory + Lab + J Component Course Prediction
+
+@csrf_exempt
+@api_view(['POST'])
+def gradePredTLJ(request):
+    # getting the student data with fields CAT1	CAT2 DA1	DA2	DA3	LAB1	LAB2	LAB3	LAB4	LAB5	LAB6	REV1	REV2	REV3
+    studentData = request.data["records"]
+
+    print(studentData)
+    studentDataListTheory = []
+    studentRecordTheory = []
+
+    studentDataListLab = []
+    studentRecordLab = []
+
+    studentDataListJ = []
+    studentRecordJ = []
+
+    # converting the data according to the required input for the model - list of dicts => list of lists
+    for entry in studentData:
+        studentRecordTheory.append(entry["CAT1"])
+        studentRecordTheory.append(entry["CAT2"])
+        studentRecordTheory.append(entry["DA1"])
+        studentRecordTheory.append(entry["DA2"])
+        studentRecordTheory.append(entry["DA3"])
+        studentDataListTheory.append(studentRecordTheory)
+
+        studentRecordLab.append(entry["LAB1"])
+        studentRecordLab.append(entry["LAB2"])
+        studentRecordLab.append(entry["LAB3"])
+        studentRecordLab.append(entry["LAB4"])
+        studentRecordLab.append(entry["LAB5"])
+        studentRecordLab.append(entry["LAB6"])
+        studentDataListLab.append(studentRecordLab)
+
+        studentRecordJ.append(entry["REV1"])
+        studentRecordJ.append(entry["REV2"])
+        studentDataListJ.append(studentRecordJ)
+
+        studentRecordTheory = []
+        studentRecordLab = []
+        studentRecordJ = []
+
+    print("Theory", studentDataListTheory)
+    print("Lab", studentDataListLab)
+    print("J", studentDataListJ)
+
+    # importing the model for theory fat marks predicition
+    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
+    pickled_model_theory = pickle.load(model)
+    model.close()
+
+    # predicting fat marks
+    y_pred_fat = pickled_model_theory.predict(studentDataListTheory)
+
+    # calculating the internal marks based on input data
+    internal = np.empty(len(y_pred_fat), dtype=object)
+    counter = 0
+
+    for i in range(0, len(studentDataListTheory)):
+        internal[counter]=round((15/50)*studentData[i]['CAT1'],2) + round((15/50)*studentData[i]['CAT2'],2) + studentData[i]['DA1'] + studentData[i]['DA2'] + studentData[i]['DA3']
+        counter += 1
+
+    totPred = internal + (0.4)*y_pred_fat
+
+    # importing the model for lab fat marks predicition
+    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\student-TL.pkl', 'rb')
+    pickled_model_lab = pickle.load(model)
+    model.close()
+
+    # predicting lab fat marks
+    y_pred_lab = pickled_model_lab.predict(studentDataListLab)
+
+    # importing the model for final review marks predicition
+    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\student-TLJ.pkl', 'rb')
+    pickled_model_J = pickle.load(model)
+    model.close()
+
+    # predicting review 3 marks
+    y_pred_J = pickled_model_J.predict(studentDataListJ)
+
+    # formula for theory + lab + j component course: (0.5*totPred)+(0.25*labtot)+(0.25*jcomp)
+
+    # calculating the sum of labs
+    labSum = []
+    for record in studentDataListLab:
+        labSum.append(sum(record))
+    
+    # calculating the sum of review 1 and review 2
+    JSum = []
+    for record in studentDataListJ:
+        JSum.append(sum(record))
+    
+    print("Lab Sum", labSum)
+    print("J Sum", JSum)
+
+    labtot= labSum + y_pred_lab
+    jcomp = JSum + y_pred_J
+    tot=(0.5*totPred)+(0.25*labtot)+(0.25*jcomp)
+    Mean=np.mean(tot)
+    sd=np.std(tot)
+    grade = np.empty(len(y_pred_J), dtype=object)
+    for i in range(0,len(y_pred_J)):
+        if y_pred_fat[i]<40 or tot[i]<50:
+            grade[i]='F'
+        else:
+            if tot[i]>= Mean + 1.5*sd:
+                grade[i]='S'
+            elif tot[i]>=Mean + 0.5*sd and tot[i] < Mean + 1.5*sd:
+                grade[i]='A'
+            elif tot[i] >= Mean - 0.5*sd and tot[i] < Mean + 0.5*sd:
+                grade[i]='B'
+            elif tot[i ]>= Mean - 1.0*sd and tot[i] < Mean - 0.5*sd:
+                grade[i]='C'
+            elif tot[i] >= Mean - 1.5*sd and tot[i] < Mean - 1.0*sd:
+                grade[i]='D'
+            elif tot[i] >= Mean - 2.0*sd and tot[i] < Mean - 1.5*sd:
+                grade[i]='E'
+            elif tot[i] < Mean - 2.0*sd:
+                grade[i]='F'
+
+    print(grade)
+
+    prediction = {
+        "grades": grade.tolist(),
+        "fatMarks": y_pred_fat.tolist(),
+        "labFatMarks": y_pred_lab.tolist(),
+        "Rev3Marks": y_pred_J.tolist(),
+        "mean": Mean,
+        "sd": sd
+    }
+    return JsonResponse(prediction)
+
+
+
+# Function for faculty case - SCore Generation Prediction
+
+@csrf_exempt
+@api_view(['POST'])
+def facultyScore(request):
+    # getting the student data with fields 'CGPA', 'Marks', 'Pass Ratio', 'Resource Materials',
+    #    'Subject Knowledge', 'Audibility', 'Teaching Methods', 'Question Paper',
+    #    'Syllabus Completion', 'Assignments', 'Oppurtunities', 'Presentation',
+    #    'Publication', 'Guidance', 'Seminar', 'IV', 'Club Contribution',
+    #    'Guest Lecture', 'Ratings'
+    facultyData = request.data["records"]
+
+    facultyDataList = []
+    facultyRecord = []
+
+    # converting the data according to the required input for the model - list of dicts => list of lists
+    for entry in facultyData:
+        facultyRecord.append(entry["CGPA"])
+        facultyRecord.append(entry["Marks"])
+        facultyRecord.append(entry["Pass Ratio"])
+        facultyRecord.append(entry["Resource Materials"])
+        facultyRecord.append(entry["Subject Knowledge"])
+        facultyRecord.append(entry["Audibility"])
+        facultyRecord.append(entry["Teaching Methods"])
+        facultyRecord.append(entry["Question Paper"])
+        facultyRecord.append(entry["Syllabus Completion"])
+        facultyRecord.append(entry["Assignments"])
+        facultyRecord.append(entry["Oppurtunities"])
+        facultyRecord.append(entry["Presentation"])
+        facultyRecord.append(entry["Publication"])
+        facultyRecord.append(entry["Guidance"])
+        facultyRecord.append(entry["Seminar"])
+        facultyRecord.append(entry["IV"])
+        facultyRecord.append(entry["Club Contribution"])
+        facultyRecord.append(entry["Guest Lecture"])
+        facultyDataList.append(facultyRecord)
+        facultyRecord = []
+
+    # importing the model for fat marks predicition
+    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\faculty.pkl', 'rb')
+    pickled_model_fac = pickle.load(model)
+    model.close()
+
+    ratingPred = pickled_model_fac.predict(facultyDataList)
+
+
+    prediction = {
+        "ratings": ratingPred.tolist(),
     }
     return JsonResponse(prediction)

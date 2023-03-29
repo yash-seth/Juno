@@ -47,7 +47,7 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, r
 
                 if(csvSheet.length) {
                     const rows = utils.sheet_to_json(csv.Sheets[csvSheet[0]]);
-                    setCsvData({"students" : rows});
+                    setCsvData({"records" : rows});
                 }
             };
             reader.readAsArrayBuffer(csvFile)
@@ -60,8 +60,14 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, r
             <div id="welcome-msg">Welcome {user.name}!</div>
             <LogoutButton />
         </div>
-        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("student"); setCsvData({"students" : []})}}>Student</button>
-        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("faculty"); setCsvData({"students" : []})}}>Faculty</button>
+        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("student"); setCsvData({"records" : []}); setResult({"grades": [],"ratings": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}}>Student</button>
+        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("faculty"); setCsvData({"records" : []}); setResult({"grades": [],"ratings": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}}>Faculty</button>
         {analysisTarget === "student" ? (<>
                 <div><b>Select Student CSV File</b></div>
                 <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={handleImport} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />

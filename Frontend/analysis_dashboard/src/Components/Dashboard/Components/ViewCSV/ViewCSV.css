@@ -8,7 +8,7 @@
 }
 
 .tableHeaders {
-    padding: 20px;
+    padding: 10px;
 }
 
 .tableHeadersFaculty {
@@ -16,7 +16,8 @@
 }
 
 #facultyTable {
-    font-size: 10px;
+    font-size: 12px;
+    overflow: scroll;
 }
 
 .student_btn_options {
