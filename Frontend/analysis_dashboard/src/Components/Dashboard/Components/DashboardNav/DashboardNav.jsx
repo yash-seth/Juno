@@ -60,17 +60,17 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, r
             <div id="welcome-msg">Welcome {user.name}!</div>
             <LogoutButton />
         </div>
-        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("student"); setCsvData({"records" : []}); setResult({"grades": [],"ratings": [],
+        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("student"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>Student</button>
-        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("faculty"); setCsvData({"records" : []}); setResult({"grades": [],"ratings": [],
+        <button className = "analysis_target_btns" onClick={() => {setAnalysisTarget("faculty"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>Faculty</button>
         {analysisTarget === "student" ? (<>
                 <div><b>Select Student CSV File</b></div>
-                <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={handleImport} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => handleImport(e)} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
             </>
         ) 
     :

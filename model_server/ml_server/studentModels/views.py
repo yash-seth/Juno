@@ -362,14 +362,14 @@ def facultyScore(request):
         facultyRecord.append(entry["Question Paper"])
         facultyRecord.append(entry["Syllabus Completion"])
         facultyRecord.append(entry["Assignments"])
-        facultyRecord.append(entry["Oppurtunities"])
-        facultyRecord.append(entry["Presentation"])
-        facultyRecord.append(entry["Publication"])
-        facultyRecord.append(entry["Guidance"])
-        facultyRecord.append(entry["Seminar"])
-        facultyRecord.append(entry["IV"])
-        facultyRecord.append(entry["Club Contribution"])
-        facultyRecord.append(entry["Guest Lecture"])
+        # facultyRecord.append(entry["Oppurtunities"])
+        # facultyRecord.append(entry["Presentation"])
+        # facultyRecord.append(entry["Publication"])
+        # facultyRecord.append(entry["Guidance"])
+        # facultyRecord.append(entry["Seminar"])
+        # facultyRecord.append(entry["IV"])
+        # facultyRecord.append(entry["Club Contribution"])
+        # facultyRecord.append(entry["Guest Lecture"])
         facultyDataList.append(facultyRecord)
         facultyRecord = []
 
@@ -378,6 +378,12 @@ def facultyScore(request):
     pickled_model_fac = pickle.load(model)
     model.close()
 
+    # scaling test data
+    from sklearn.preprocessing import StandardScaler
+    sc = StandardScaler()
+    facultyDataList = sc.fit_transform(facultyDataList)
+
+    print(facultyDataList[0])
     ratingPred = pickled_model_fac.predict(facultyDataList)
 
 

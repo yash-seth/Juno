@@ -7,19 +7,19 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
     <>
         {analysisTarget === "student" ? <>
         <div className='student_btn_options'>
-            <button id="T" onClick={() => {setTableState("T"); setCsvData({"records": []}); setResult({"grades": [],"ratings": [],
+            <button id="T" onClick={() => {setTableState("T"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
                 Theory
             </button>
-            <button id="TL" onClick={() => {setTableState("TL"); setCsvData({"records": []});setResult({"grades": [],"ratings": [],
+            <button id="TL" onClick={() => {setTableState("TL"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
                 Theory + Lab
             </button>
-            <button id="TLJ" onClick={() => {setTableState("TLJ"); setCsvData({"records": []});setResult({"grades": [],"ratings": [],
+            <button id="TLJ" onClick={() => {setTableState("TLJ"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
@@ -196,14 +196,14 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                         <th className = "tableHeadersFaculty">Question Paper</th>
                         <th className = "tableHeadersFaculty">Syllabus Completion</th>
                         <th className = "tableHeadersFaculty">Assignments</th>
-                        <th className = "tableHeadersFaculty">Oppurtunities</th>
+                        {/* <th className = "tableHeadersFaculty">Oppurtunities</th>
                         <th className = "tableHeadersFaculty">Presentation</th>
                         <th className = "tableHeadersFaculty">Publication</th>
                         <th className = "tableHeadersFaculty">Guidance</th>
                         <th className = "tableHeadersFaculty">Seminar</th>
                         <th className = "tableHeadersFaculty">IV</th>
                         <th className = "tableHeadersFaculty">Club Contribution</th>
-                        <th className = "tableHeadersFaculty">Guest Lecture</th>
+                        <th className = "tableHeadersFaculty">Guest Lecture</th> */}
                         <th className = "tableHeadersFaculty">Score Compute (on 100)</th>
                     </tr>
                 </thead>
@@ -222,14 +222,14 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                                 <td>{user["Question Paper"]}</td>
                                 <td>{user["Syllabus Completion"]}</td>
                                 <td>{user.Assignments}</td>
-                                <td>{user.Oppurtunities}</td>
+                                {/* <td>{user.Oppurtunities}</td>
                                 <td>{user.Presentation}</td>
                                 <td>{user.Publication}</td>
                                 <td>{user.Guidance}</td>
                                 <td>{user.Seminar}</td>
-                                <td>{user.IV}</td>
-                                <td>{user["Club Contribution"]}</td>
-                                <td>{user["Guest Lecture"]}</td>
+                                <td>{user.IV}</td> */}
+                                {/* <td>{user["Club Contribution"]}</td> */}
+                                {/* <td>{user["Guest Lecture"]}</td> */}
                                 <td>{result.ratings[index].toFixed(3)}</td>
                             </tr>
                         ))
