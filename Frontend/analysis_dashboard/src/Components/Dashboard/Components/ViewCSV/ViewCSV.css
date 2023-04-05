@@ -43,3 +43,14 @@
     justify-content: center;
     align-items: center;
 }
+
+.plotSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#pieChart {
+    height: 200px;
+}

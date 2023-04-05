@@ -67,8 +67,8 @@ def gradePredTheory(request):
     grade = np.empty(len(y_pred_fat), dtype = object)
     Mean=np.mean(totPred)
     sd=np.std(totPred)
-    print("SD:", sd)
-    print("Mean:", Mean)
+    # print("SD:", sd)
+    # print("Mean:", Mean)
 
     for i in range(0,len(totPred)):
         if internal[i] < 30 or y_pred_fat[i] < 40:
@@ -90,8 +90,8 @@ def gradePredTheory(request):
                 grade[i]='F'
 
 
-    print(studentNameList)
-    print(studentRegisterNumList)
+    # print(studentNameList)
+    # print(studentRegisterNumList)
 
     prediction = {
         "grades": grade.tolist(),
@@ -111,7 +111,7 @@ def gradePredTL(request):
     # getting the student data with fields CAT1	CAT2 DA1	DA2	DA3	LAB1	LAB2	LAB3	LAB4	LAB5	LAB6	
     studentData = request.data["records"]
 
-    print(studentData)
+    # print(studentData)
     studentDataListTheory = []
     studentRecordTheory = []
 
@@ -143,8 +143,8 @@ def gradePredTL(request):
         studentRecordTheory = []
         studentRecordLab = []
 
-    print("Theory", studentDataListTheory)
-    print("Lab", studentDataListLab)
+    # print("Theory", studentDataListTheory)
+    # print("Lab", studentDataListLab)
 
     # importing the model for theory fat marks predicition
     model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
@@ -203,8 +203,8 @@ def gradePredTL(request):
             elif tot[i] < Mean - 2.0*sd:
                 grade[i]='F'
 
-    print(studentNameList)
-    print(studentRegisterNumList)
+    # print(studentNameList)
+    # print(studentRegisterNumList)
 
     prediction = {
         "grades": grade.tolist(),
@@ -266,9 +266,9 @@ def gradePredTLJ(request):
         studentRecordLab = []
         studentRecordJ = []
 
-    print("Theory", studentDataListTheory)
-    print("Lab", studentDataListLab)
-    print("J", studentDataListJ)
+    # print("Theory", studentDataListTheory)
+    # print("Lab", studentDataListLab)
+    # print("J", studentDataListJ)
 
     # importing the model for theory fat marks predicition
     model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
@@ -316,8 +316,8 @@ def gradePredTLJ(request):
     for record in studentDataListJ:
         JSum.append(sum(record))
     
-    print("Lab Sum", labSum)
-    print("J Sum", JSum)
+    # print("Lab Sum", labSum)
+    # print("J Sum", JSum)
 
     labtot= labSum + y_pred_lab
     jcomp = JSum + y_pred_J
@@ -344,8 +344,8 @@ def gradePredTLJ(request):
             elif tot[i] < Mean - 2.0*sd:
                 grade[i]='F'
 
-    print(studentNameList)
-    print(studentRegisterNumList)
+    # print(studentNameList)
+    # print(studentRegisterNumList)
 
     prediction = {
         "grades": grade.tolist(),
@@ -417,7 +417,7 @@ def facultyScore(request):
     sc = StandardScaler()
     facultyDataList = sc.fit_transform(facultyDataList)
 
-    print(facultyDataList[0])
+    # print(facultyDataList[0])
     ratingPred = pickled_model_fac.predict(facultyDataList)
 
     stars = []

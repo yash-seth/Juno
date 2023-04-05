@@ -1,19 +1,12 @@
 import React from 'react'
 import "./ViewCSV.css"
 import { useState, useEffect } from "react"
-import { Bar } from "react-chartjs-2"
+import BarChart from '../../../BarChart/BarChart';
+import BarChartFacultyStar from '../../../BarChartFacultyStar/BarChartFacultyStar';
+import PieChart from '../../../PieChart/PieChart';
+
 
 function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
-    // const [failCount, setFailCount] = useState(0)
-    // useEffect(() => {
-    //     console.log("I was here")
-    //     for(let i = 0; i<csvData.length; i++) {
-    //         console.log(csvData['grades'][i])
-    //         if(csvData['grades'][i] === "F") {
-    //             setFailCount(failCount++);
-    //         }
-    //     }
-    // }, []);
   return (
     <>
         {analysisTarget === "student" ? <>
@@ -48,6 +41,10 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
             {/* <div id = "failCount">
                 <b>Fail Count:</b> {failCount}
             </div> */}
+            <div className="plotSection">
+                <BarChart plotData={result.grades}/>
+                <PieChart plotData={result.grades} style={{ height: "200px" }}/>
+            </div>
         </div>
         ) :
         (<span></span>)
@@ -202,6 +199,15 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
         :
         <>
         <div className = "ViewCSVMain">
+            {result.ratings.length !== 0 ? (
+            <div className='predictionDetails'>
+                <div className="plotSection">
+                    <BarChartFacultyStar plotData={result.ratings}/>
+                </div>
+            </div>
+            ) :
+            (<span></span>)
+            }
             <table id="facultyTable">
                 <thead>
                     <tr>
