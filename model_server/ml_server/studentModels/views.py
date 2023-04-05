@@ -29,9 +29,13 @@ def gradePredTheory(request):
 
     studentDataList = []
     studentRecord = []
+    studentNameList = []
+    studentRegisterNumList = []
 
     # converting the data according to the required input for the model - list of dicts => list of lists
     for entry in studentData:
+        studentNameList.append(entry["Reg. No."])
+        studentRegisterNumList.append(entry["Name"])
         studentRecord.append(entry["CAT1"])
         studentRecord.append(entry["CAT2"])
         studentRecord.append(entry["DA1"])
@@ -85,11 +89,17 @@ def gradePredTheory(request):
             elif totPred[i] < Mean - 2.0*sd:
                 grade[i]='F'
 
+
+    print(studentNameList)
+    print(studentRegisterNumList)
+
     prediction = {
         "grades": grade.tolist(),
         "fatMarks": y_pred_fat.tolist(),
         "mean": Mean,
-        "sd": sd
+        "sd": sd,
+        "names": studentNameList,
+        "regno": studentRegisterNumList
     }
     return JsonResponse(prediction)
 
@@ -108,8 +118,13 @@ def gradePredTL(request):
     studentDataListLab = []
     studentRecordLab = []
 
+    studentNameList = []
+    studentRegisterNumList = []
+
     # converting the data according to the required input for the model - list of dicts => list of lists
     for entry in studentData:
+        studentRegisterNumList.append(entry["Reg. No."])
+        studentNameList.append(entry["Name"])
         studentRecordTheory.append(entry["CAT1"])
         studentRecordTheory.append(entry["CAT2"])
         studentRecordTheory.append(entry["DA1"])
@@ -188,14 +203,17 @@ def gradePredTL(request):
             elif tot[i] < Mean - 2.0*sd:
                 grade[i]='F'
 
-    print(grade)
+    print(studentNameList)
+    print(studentRegisterNumList)
 
     prediction = {
         "grades": grade.tolist(),
         "fatMarks": y_pred_fat.tolist(),
         "labFatMarks": y_pred_lab.tolist(),
         "mean": Mean,
-        "sd": sd
+        "sd": sd,
+        "names": studentNameList,
+        "regno": studentRegisterNumList
     }
     return JsonResponse(prediction)
 
@@ -218,8 +236,13 @@ def gradePredTLJ(request):
     studentDataListJ = []
     studentRecordJ = []
 
+    studentNameList = []
+    studentRegisterNumList = []
+
     # converting the data according to the required input for the model - list of dicts => list of lists
     for entry in studentData:
+        studentRegisterNumList.append(entry["Reg. No."])
+        studentNameList.append(entry["Name"])
         studentRecordTheory.append(entry["CAT1"])
         studentRecordTheory.append(entry["CAT2"])
         studentRecordTheory.append(entry["DA1"])
@@ -321,7 +344,8 @@ def gradePredTLJ(request):
             elif tot[i] < Mean - 2.0*sd:
                 grade[i]='F'
 
-    print(grade)
+    print(studentNameList)
+    print(studentRegisterNumList)
 
     prediction = {
         "grades": grade.tolist(),
@@ -329,7 +353,9 @@ def gradePredTLJ(request):
         "labFatMarks": y_pred_lab.tolist(),
         "Rev3Marks": y_pred_J.tolist(),
         "mean": Mean,
-        "sd": sd
+        "sd": sd,
+        "names": studentNameList,
+        "regno": studentRegisterNumList
     }
     return JsonResponse(prediction)
 
@@ -349,9 +375,17 @@ def facultyScore(request):
 
     facultyDataList = []
     facultyRecord = []
+    facultyNames = []
+    facultyIDs = []
+    courseList = []
+    slotList = []
 
     # converting the data according to the required input for the model - list of dicts => list of lists
     for entry in facultyData:
+        facultyNames.append(entry["Name"])
+        facultyIDs.append(entry["Faculty ID"])
+        courseList.append(entry["Course"])
+        slotList.append(entry["Slot"])
         facultyRecord.append(entry["CGPA"])
         facultyRecord.append(entry["Marks"])
         facultyRecord.append(entry["Pass Ratio"])
@@ -386,8 +420,36 @@ def facultyScore(request):
     print(facultyDataList[0])
     ratingPred = pickled_model_fac.predict(facultyDataList)
 
+    stars = []
+    for rating in ratingPred.tolist():
+        if rating <= 10:
+            stars.append(1)
+        elif rating > 10 and rating <= 20:
+            stars.append(2)
+        elif rating > 20 and rating <= 30:
+            stars.append(3)
+        elif rating > 30 and rating <= 40:
+            stars.append(4)
+        elif rating > 40 and rating <= 50:
+            stars.append(5)
+        elif rating > 50 and rating <= 60:
+            stars.append(6)
+        elif rating > 60 and rating <= 70:
+            stars.append(7)
+        elif rating > 70 and rating <= 80:
+            stars.append(8)
+        elif rating > 80 and rating <= 90:
+            stars.append(9)
+        elif rating > 90 and rating <= 100:
+            stars.append(10)
+
 
     prediction = {
         "ratings": ratingPred.tolist(),
+        "names": facultyNames,
+        "fid": facultyIDs,
+        "course": courseList,
+        "slot": slotList,
+        "stars": stars
     }
     return JsonResponse(prediction)

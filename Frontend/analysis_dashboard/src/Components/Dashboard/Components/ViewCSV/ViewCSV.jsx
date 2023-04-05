@@ -1,8 +1,19 @@
 import React from 'react'
 import "./ViewCSV.css"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Bar } from "react-chartjs-2"
 
 function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
+    // const [failCount, setFailCount] = useState(0)
+    // useEffect(() => {
+    //     console.log("I was here")
+    //     for(let i = 0; i<csvData.length; i++) {
+    //         console.log(csvData['grades'][i])
+    //         if(csvData['grades'][i] === "F") {
+    //             setFailCount(failCount++);
+    //         }
+    //     }
+    // }, []);
   return (
     <>
         {analysisTarget === "student" ? <>
@@ -34,6 +45,9 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
             <div id = "predSD">
                 <b>SD:</b> {result.sd.toFixed(3)}
             </div>
+            {/* <div id = "failCount">
+                <b>Fail Count:</b> {failCount}
+            </div> */}
         </div>
         ) :
         (<span></span>)
@@ -42,7 +56,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
             <table>
                 <thead>
                     <tr>
-                        <th className = "tableHeaders">No.</th>
+                        <th className = "tableHeaders">Register No.</th>
+                        <th className = "tableHeaders">Name</th>
                         <th className = "tableHeaders">CAT1</th>
                         <th className = "tableHeaders">CAT2</th>
                         <th className = "tableHeaders">DA1</th>
@@ -56,7 +71,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                     {csvData["records"].length && result.grades.length !== 0 ? (
                         csvData["records"].map((user, index) => (
                             <tr key = {index}>
-                                <td>{index + 1}</td>
+                                <td>{result.regno[index]}</td>
+                                <td>{result.names[index]}</td>
                                 <td>{user.CAT1}</td>
                                 <td>{user.CAT2}</td>
                                 <td>{user.DA1}</td>
@@ -77,7 +93,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
         <table>
             <thead>
                 <tr>
-                    <th className = "tableHeaders">No.</th>
+                    <th className = "tableHeaders">Register No.</th>
+                    <th className = "tableHeaders">Name</th>
                     <th className = "tableHeaders">CAT1</th>
                     <th className = "tableHeaders">CAT2</th>
                     <th className = "tableHeaders">DA1</th>
@@ -98,7 +115,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                 {csvData["records"].length && result.grades.length !== 0? (
                     csvData["records"].map((user, index) => (
                         <tr key = {index}>
-                            <td>{index + 1}</td>
+                            <td>{result.regno[index]}</td>
+                            <td>{result.names[index]}</td>
                             <td>{user.CAT1}</td>
                             <td>{user.CAT2}</td>
                             <td>{user.DA1}</td>
@@ -126,7 +144,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
         <table>
             <thead>
                 <tr>
-                    <th className = "tableHeaders">No.</th>
+                    <th className = "tableHeaders">Register No.</th>
+                    <th className = "tableHeaders">Name</th>
                     <th className = "tableHeaders">CAT1</th>
                     <th className = "tableHeaders">CAT2</th>
                     <th className = "tableHeaders">DA1</th>
@@ -150,7 +169,8 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                 {csvData["records"].length && result.grades.length !== 0 ? (
                     csvData["records"].map((user, index) => (
                         <tr key = {index}>
-                            <td>{index + 1}</td>
+                            <td>{result.regno[index]}</td>
+                            <td>{result.names[index]}</td>
                             <td>{user.CAT1}</td>
                             <td>{user.CAT2}</td>
                             <td>{user.DA1}</td>
@@ -185,9 +205,12 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
             <table id="facultyTable">
                 <thead>
                     <tr>
-                        <th className = "tableHeadersFaculty">No.</th>
-                        <th className = "tableHeadersFaculty">CGPA</th>
-                        <th className = "tableHeadersFaculty">Marks</th>
+                        <th className = "tableHeadersFaculty">Faculty ID</th>
+                        <th className = "tableHeadersFaculty">Name</th>
+                        <th className = "tableHeadersFaculty">Course</th>
+                        <th className = "tableHeadersFaculty">Slot</th>
+                        <th className = "tableHeadersFaculty">Mean CGPA</th>
+                        <th className = "tableHeadersFaculty">Mean Marks</th>
                         <th className = "tableHeadersFaculty">Pass Ratio</th>
                         <th className = "tableHeadersFaculty">Resource Materials</th>
                         <th className = "tableHeadersFaculty">Subject Knowledge</th>
@@ -205,13 +228,17 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                         <th className = "tableHeadersFaculty">Club Contribution</th>
                         <th className = "tableHeadersFaculty">Guest Lecture</th> */}
                         <th className = "tableHeadersFaculty">Score Compute (on 100)</th>
+                        <th className = "tableHeadersFaculty">Star rating</th>
                     </tr>
                 </thead>
                 <tbody>
                     {csvData["records"].length && result.ratings.length !== 0 ? (
                         csvData["records"].map((user, index) => (
                             <tr key = {index}>
-                                <td>{index + 1}</td>
+                                <td>{result.fid[index]}</td>
+                                <td>{result.names[index]}</td>
+                                <td>{result.course[index]}</td>
+                                <td>{result.slot[index]}</td>
                                 <td>{user.CGPA}</td>
                                 <td>{user.Marks}</td>
                                 <td>{user["Pass Ratio"]}</td>
@@ -231,6 +258,7 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
                                 {/* <td>{user["Club Contribution"]}</td> */}
                                 {/* <td>{user["Guest Lecture"]}</td> */}
                                 <td>{result.ratings[index].toFixed(3)}</td>
+                                <td>{result.stars[index]}</td>
                             </tr>
                         ))
                     ) : (
