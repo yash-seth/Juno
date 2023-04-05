@@ -7,6 +7,16 @@ import PieChart from '../../../PieChart/PieChart';
 
 
 function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
+    let failCount = 0;
+    if(analysisTarget === "student") {
+        if(result.grades.length !== 0) {
+            for(let i=0; i<result.grades.length; i++) {
+                if(result.grades[i] === "F") {
+                    failCount++;
+                }
+            }
+        }
+    }
   return (
     <>
         {analysisTarget === "student" ? <>
@@ -38,9 +48,9 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
             <div id = "predSD">
                 <b>SD:</b> {result.sd.toFixed(3)}
             </div>
-            {/* <div id = "failCount">
+            <div id = "failCount">
                 <b>Fail Count:</b> {failCount}
-            </div> */}
+            </div>
             <div className="plotSection">
                 <BarChart plotData={result.grades}/>
                 <PieChart plotData={result.grades} style={{ height: "200px" }}/>
