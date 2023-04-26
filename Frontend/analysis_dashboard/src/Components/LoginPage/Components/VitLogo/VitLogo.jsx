@@ -3,7 +3,7 @@ import "./VitLogo.css"
 
 function VitLogo() {
   return (
-    <div class="VitLogoMain">
+    <div className="VitLogoMain">
       <div id="VIT_logo">
       <img
           src={require("../../../../Assets/VIT_logo.png")}

@@ -1,6 +1,6 @@
 import React from 'react'
 import "./ViewCSV.css"
-import { useState, useEffect } from "react"
+// import { useState, useEffect } from "react"
 import BarChart from '../../../BarChart/BarChart';
 import BarChartFacultyStar from '../../../BarChartFacultyStar/BarChartFacultyStar';
 import PieChart from '../../../PieChart/PieChart';
@@ -19,7 +19,7 @@ function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result
     }
   return (
     <>
-        {analysisTarget === "student" ? <>
+    {analysisTarget === "student" ? <>
         <div className='student_btn_options'>
             <button id="T" onClick={() => {setTableState("T"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
