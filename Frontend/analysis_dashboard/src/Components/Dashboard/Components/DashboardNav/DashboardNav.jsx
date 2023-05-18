@@ -6,7 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import LogoutButton from '../LogoutButton/LogoutButton';
 import axios from 'axios'
 
-function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, setResult, tableState}) {
+function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, setResult, tableState, isLoading}) {
     const sendData = async(e) => {
         e.preventDefault();
         let endpoint = ""
@@ -29,6 +29,7 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, s
         },
           })
           .then(({data}) => {
+            setTimeout(() => isLoading(false), 1000);
             setResult(data)
         });
       }
@@ -85,7 +86,7 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, s
             "sd": 0})}} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
         </>
     )}
-    <button id="send-data" onClick={(e) => {sendData(e);}}>Generate Insights on data</button>
+    <button id="send-data" onClick={(e) => {isLoading(true);sendData(e);}}>Generate Insights on data</button>
     </div>
   )
 }

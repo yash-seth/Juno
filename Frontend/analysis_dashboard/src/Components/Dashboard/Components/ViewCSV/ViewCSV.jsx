@@ -4,9 +4,10 @@ import "./ViewCSV.css"
 import BarChart from '../../../BarChart/BarChart';
 import BarChartFacultyStar from '../../../BarChartFacultyStar/BarChartFacultyStar';
 import PieChart from '../../../PieChart/PieChart';
+import { ColorRing } from  'react-loader-spinner'
 
 
-function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTableState}) {
+function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTableState, loading}) {
     let failCount = 0;
     if(analysisTarget === "student") {
         if(result.grades.length !== 0) {
@@ -40,7 +41,8 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                 Theory + Lab + J Component
             </button>
         </div>
-        {result.grades.length !== 0 ? (
+        {result.grades.length !== 0 && !loading ? (
+        <>
         <div className='predictionDetails'>
             <div id = "predMean">
                 <b>Mean:</b> {result.mean.toFixed(3)}
@@ -56,10 +58,44 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                 <PieChart plotData={result.grades} style={{ height: "200px" }}/>
             </div>
         </div>
-        ) :
-        (<span></span>)
-        }
-        {tableState === "T" ? <div className = "ViewCSVMain">
+                {tableState === "T" ? <div className = "ViewCSVMain">
+                <table>
+                    <thead>
+                        <tr>
+                            <th className = "tableHeaders">Register No.</th>
+                            <th className = "tableHeaders">Name</th>
+                            <th className = "tableHeaders">CAT1</th>
+                            <th className = "tableHeaders">CAT2</th>
+                            <th className = "tableHeaders">DA1</th>
+                            <th className = "tableHeaders">DA2</th>
+                            <th className = "tableHeaders">DA3</th>
+                            <th className = "tableHeaders">Predicted FAT Marks</th>
+                            <th className = "tableHeaders">Predicted Grade Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {csvData["records"].length && result.grades.length !== 0 ? (
+                            csvData["records"].map((user, index) => (
+                                <tr key = {index}>
+                                    <td>{result.regno[index]}</td>
+                                    <td>{result.names[index]}</td>
+                                    <td>{user.CAT1}</td>
+                                    <td>{user.CAT2}</td>
+                                    <td>{user.DA1}</td>
+                                    <td>{user.DA2}</td>
+                                    <td>{user.DA3}</td>
+                                    <td>{result.fatMarks[index].toFixed(3)}</td>
+                                    <td>{result.grades[index]}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <td colSpan="4">No Data found.</td>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            :
+            tableState === "TL" ? <div className = "ViewCSVMain">
             <table>
                 <thead>
                     <tr>
@@ -71,7 +107,68 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                         <th className = "tableHeaders">DA2</th>
                         <th className = "tableHeaders">DA3</th>
                         <th className = "tableHeaders">Predicted FAT Marks</th>
-                        <th className = "tableHeaders">Predicted Grade Marks</th>
+                        <th className = "tableHeaders">LAB1</th>
+                        <th className = "tableHeaders">LAB2</th>
+                        <th className = "tableHeaders">LAB3</th>
+                        <th className = "tableHeaders">LAB4</th>
+                        <th className = "tableHeaders">LAB5</th>
+                        <th className = "tableHeaders">LAB6</th>
+                        <th className = "tableHeaders">Predicted LABFAT Marks</th>
+                        <th className = "tableHeaders">Predicted Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {csvData["records"].length && result.grades.length !== 0? (
+                        csvData["records"].map((user, index) => (
+                            <tr key = {index}>
+                                <td>{result.regno[index]}</td>
+                                <td>{result.names[index]}</td>
+                                <td>{user.CAT1}</td>
+                                <td>{user.CAT2}</td>
+                                <td>{user.DA1}</td>
+                                <td>{user.DA2}</td>
+                                <td>{user.DA3}</td>
+                                <td>{result.fatMarks[index].toFixed(3)}</td>
+                                <td>{user.LAB1}</td>
+                                <td>{user.LAB2}</td>
+                                <td>{user.LAB3}</td>
+                                <td>{user.LAB4}</td>
+                                <td>{user.LAB5}</td>
+                                <td>{user.LAB6}</td>
+                                <td>{result.labFatMarks[index].toFixed(3)}</td>
+                                <td>{result.grades[index]}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <td colSpan="4">No Data found.</td>
+                    )}
+                </tbody>
+            </table>
+        </div>
+            :
+            tableState === "TLJ" ? <div className = "ViewCSVMain">
+            <table>
+                <thead>
+                    <tr>
+                        <th className = "tableHeaders">Register No.</th>
+                        <th className = "tableHeaders">Name</th>
+                        <th className = "tableHeaders">CAT1</th>
+                        <th className = "tableHeaders">CAT2</th>
+                        <th className = "tableHeaders">DA1</th>
+                        <th className = "tableHeaders">DA2</th>
+                        <th className = "tableHeaders">DA3</th>
+                        <th className = "tableHeaders">Predicted FAT Marks</th>
+                        <th className = "tableHeaders">LAB1</th>
+                        <th className = "tableHeaders">LAB2</th>
+                        <th className = "tableHeaders">LAB3</th>
+                        <th className = "tableHeaders">LAB4</th>
+                        <th className = "tableHeaders">LAB5</th>
+                        <th className = "tableHeaders">LAB6</th>
+                        <th className = "tableHeaders">Predicted LABFAT Marks</th>
+                        <th className = "tableHeaders">REV1</th>
+                        <th className = "tableHeaders">REV2</th>
+                        <th className = "tableHeaders">Predicted REV3 Marks</th>
+                        <th className = "tableHeaders">Predicted Grade</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +183,16 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                                 <td>{user.DA2}</td>
                                 <td>{user.DA3}</td>
                                 <td>{result.fatMarks[index].toFixed(3)}</td>
+                                <td>{user.LAB1}</td>
+                                <td>{user.LAB2}</td>
+                                <td>{user.LAB3}</td>
+                                <td>{user.LAB4}</td>
+                                <td>{user.LAB5}</td>
+                                <td>{user.LAB6}</td>
+                                <td>{result.labFatMarks[index].toFixed(3)}</td>
+                                <td>{user.REV1}</td>
+                                <td>{user.REV2}</td>
+                                <td>{result.Rev3Marks[index].toFixed(3)}</td>
                                 <td>{result.grades[index]}</td>
                             </tr>
                         ))
@@ -94,131 +201,31 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                     )}
                 </tbody>
             </table>
-        </div>
-        :
-        tableState === "TL" ? <div className = "ViewCSVMain">
-        <table>
-            <thead>
-                <tr>
-                    <th className = "tableHeaders">Register No.</th>
-                    <th className = "tableHeaders">Name</th>
-                    <th className = "tableHeaders">CAT1</th>
-                    <th className = "tableHeaders">CAT2</th>
-                    <th className = "tableHeaders">DA1</th>
-                    <th className = "tableHeaders">DA2</th>
-                    <th className = "tableHeaders">DA3</th>
-                    <th className = "tableHeaders">Predicted FAT Marks</th>
-                    <th className = "tableHeaders">LAB1</th>
-                    <th className = "tableHeaders">LAB2</th>
-                    <th className = "tableHeaders">LAB3</th>
-                    <th className = "tableHeaders">LAB4</th>
-                    <th className = "tableHeaders">LAB5</th>
-                    <th className = "tableHeaders">LAB6</th>
-                    <th className = "tableHeaders">Predicted LABFAT Marks</th>
-                    <th className = "tableHeaders">Predicted Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                {csvData["records"].length && result.grades.length !== 0? (
-                    csvData["records"].map((user, index) => (
-                        <tr key = {index}>
-                            <td>{result.regno[index]}</td>
-                            <td>{result.names[index]}</td>
-                            <td>{user.CAT1}</td>
-                            <td>{user.CAT2}</td>
-                            <td>{user.DA1}</td>
-                            <td>{user.DA2}</td>
-                            <td>{user.DA3}</td>
-                            <td>{result.fatMarks[index].toFixed(3)}</td>
-                            <td>{user.LAB1}</td>
-                            <td>{user.LAB2}</td>
-                            <td>{user.LAB3}</td>
-                            <td>{user.LAB4}</td>
-                            <td>{user.LAB5}</td>
-                            <td>{user.LAB6}</td>
-                            <td>{result.labFatMarks[index].toFixed(3)}</td>
-                            <td>{result.grades[index]}</td>
-                        </tr>
-                    ))
-                ) : (
-                    <td colSpan="4">No Data found.</td>
-                )}
-            </tbody>
-        </table>
-    </div>
-        :
-        tableState === "TLJ" ? <div className = "ViewCSVMain">
-        <table>
-            <thead>
-                <tr>
-                    <th className = "tableHeaders">Register No.</th>
-                    <th className = "tableHeaders">Name</th>
-                    <th className = "tableHeaders">CAT1</th>
-                    <th className = "tableHeaders">CAT2</th>
-                    <th className = "tableHeaders">DA1</th>
-                    <th className = "tableHeaders">DA2</th>
-                    <th className = "tableHeaders">DA3</th>
-                    <th className = "tableHeaders">Predicted FAT Marks</th>
-                    <th className = "tableHeaders">LAB1</th>
-                    <th className = "tableHeaders">LAB2</th>
-                    <th className = "tableHeaders">LAB3</th>
-                    <th className = "tableHeaders">LAB4</th>
-                    <th className = "tableHeaders">LAB5</th>
-                    <th className = "tableHeaders">LAB6</th>
-                    <th className = "tableHeaders">Predicted LABFAT Marks</th>
-                    <th className = "tableHeaders">REV1</th>
-                    <th className = "tableHeaders">REV2</th>
-                    <th className = "tableHeaders">Predicted REV3 Marks</th>
-                    <th className = "tableHeaders">Predicted Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                {csvData["records"].length && result.grades.length !== 0 ? (
-                    csvData["records"].map((user, index) => (
-                        <tr key = {index}>
-                            <td>{result.regno[index]}</td>
-                            <td>{result.names[index]}</td>
-                            <td>{user.CAT1}</td>
-                            <td>{user.CAT2}</td>
-                            <td>{user.DA1}</td>
-                            <td>{user.DA2}</td>
-                            <td>{user.DA3}</td>
-                            <td>{result.fatMarks[index].toFixed(3)}</td>
-                            <td>{user.LAB1}</td>
-                            <td>{user.LAB2}</td>
-                            <td>{user.LAB3}</td>
-                            <td>{user.LAB4}</td>
-                            <td>{user.LAB5}</td>
-                            <td>{user.LAB6}</td>
-                            <td>{result.labFatMarks[index].toFixed(3)}</td>
-                            <td>{user.REV1}</td>
-                            <td>{user.REV2}</td>
-                            <td>{result.Rev3Marks[index].toFixed(3)}</td>
-                            <td>{result.grades[index]}</td>
-                        </tr>
-                    ))
-                ) : (
-                    <td colSpan="4">No Data found.</td>
-                )}
-            </tbody>
-        </table>
-        </div>
-        :
-        setTableState("T")}
+            </div>
+            :
+            setTableState("T")}
+            </>
+        ) :
+        (<ColorRing
+            visible={loading}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />)
+        }
         </>
         :
         <>
         <div className = "ViewCSVMain">
-            {result.ratings.length !== 0 ? (
+            {result.ratings.length !== 0 && !loading ? (
             <div className='predictionDetails'>
                 <div className="plotSection">
                     <BarChartFacultyStar plotData={result.ratings}/>
                 </div>
-            </div>
-            ) :
-            (<span></span>)
-            }
-            <table id="facultyTable">
+                <table id="facultyTable">
                 <thead>
                     <tr>
                         <th className = "tableHeadersFaculty">Faculty ID</th>
@@ -277,11 +284,23 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
                                 <td>{result.stars[index]}</td>
                             </tr>
                         ))
-                    ) : (
-                        <td colSpan="4">No Data found.</td>
-                    )}
-                </tbody>
-            </table>
+                        ) : (
+                            <td colSpan="4">No Data found.</td>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            ) :
+            (<ColorRing
+                visible={loading}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+              />)
+            } 
         </div>
         </>
     }
