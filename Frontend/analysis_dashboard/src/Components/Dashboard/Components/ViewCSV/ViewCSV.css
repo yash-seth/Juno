@@ -27,7 +27,7 @@
     align-items: center;
 }
 
-#T, #TL, #TLJ {
+.student-category {
     margin: 10px;
     border-width: 0px;
     background-color: rgb(174, 70, 238);
@@ -35,6 +35,12 @@
     padding: 10px;
     font-weight: 700;
     border-radius: 8px;
+}
+
+.student-category:focus {
+    background-color: rgb(203, 35, 169);
+    border-color: rgb(0, 0, 0);
+    border-width: 1px;
 }
 
 .predictionDetails {

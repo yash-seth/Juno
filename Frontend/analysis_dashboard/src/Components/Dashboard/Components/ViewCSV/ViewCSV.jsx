@@ -22,19 +22,19 @@ function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTab
     <>
     {analysisTarget === "student" ? <>
         <div className='student_btn_options'>
-            <button id="T" onClick={() => {setTableState("T"); setResult({"grades": [],"ratings": [],
+            <button className="student-category" onClick={() => {setTableState("T"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
                 Theory
             </button>
-            <button id="TL" onClick={() => {setTableState("TL"); setResult({"grades": [],"ratings": [],
+            <button className="student-category" onClick={() => {setTableState("TL"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
                 Theory + Lab
             </button>
-            <button id="TLJ" onClick={() => {setTableState("TLJ"); setResult({"grades": [],"ratings": [],
+            <button className="student-category" onClick={() => {setTableState("TLJ"); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
             "sd": 0})}}>
