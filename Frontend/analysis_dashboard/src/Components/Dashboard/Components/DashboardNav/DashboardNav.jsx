@@ -6,7 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import LogoutButton from '../LogoutButton/LogoutButton';
 import axios from 'axios'
 
-function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
+function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, setResult, tableState}) {
     const sendData = async(e) => {
         e.preventDefault();
         let endpoint = ""
@@ -29,7 +29,6 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, r
         },
           })
           .then(({data}) => {
-            console.log(data);
             setResult(data)
         });
       }
@@ -70,14 +69,20 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, r
             "sd": 0})}}>Faculty</button>
         {analysisTarget === "student" ? (<>
                 <div><b>Select Student CSV File</b></div>
-                <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => handleImport(e)} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => {handleImport(e); setResult({"grades": [],"ratings": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
             </>
         ) 
     :
     (
         <>
             <div><b>Select Faculty CSV File</b></div>
-            <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={handleImport} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => {handleImport(e); setResult({"grades": [],"ratings": [],
+            "fatMarks": [],
+            "mean": 0,
+            "sd": 0})}} accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
         </>
     )}
     <button id="send-data" onClick={(e) => {sendData(e);}}>Generate Insights on data</button>

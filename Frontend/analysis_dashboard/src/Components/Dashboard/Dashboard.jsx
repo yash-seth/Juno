@@ -16,8 +16,8 @@ function Dashboard() {
     const [csvData, setCsvData] = useState({"records": []});
     if (isAuthenticated) return (
     <div className='DashboardMain'>
-        <DashboardNav csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget} result = {result} setResult={setResult} tableState={tableState} setTableState={setTableState}/>
-        <ViewCSV csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget} result = {result} setResult={setResult} tableState={tableState} setTableState={setTableState}/>
+        <DashboardNav csvData={csvData} setCsvData={setCsvData} analysisTarget={analysisTarget} setAnalysisTarget={setAnalysisTarget} setResult={setResult} tableState={tableState}/>
+        <ViewCSV csvData={csvData} analysisTarget={analysisTarget} result = {result} setResult={setResult} tableState={tableState} setTableState={setTableState}/>
     </div>
   )
 }

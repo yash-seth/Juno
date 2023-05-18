@@ -6,7 +6,7 @@ import BarChartFacultyStar from '../../../BarChartFacultyStar/BarChartFacultySta
 import PieChart from '../../../PieChart/PieChart';
 
 
-function ViewCSV({csvData, setCsvData, analysisTarget, setAnalysisTarget, result, setResult, tableState, setTableState}) {
+function ViewCSV({csvData, analysisTarget, result, setResult, tableState, setTableState}) {
     let failCount = 0;
     if(analysisTarget === "student") {
         if(result.grades.length !== 0) {
