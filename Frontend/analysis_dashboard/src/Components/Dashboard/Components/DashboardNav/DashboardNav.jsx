@@ -69,7 +69,7 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, s
             "mean": 0,
             "sd": 0})}}>Faculty</button>
         {analysisTarget === "student" ? (<>
-                <div><b>Select Student CSV File</b></div>
+                <div className="category-label"><b>Select Student CSV File</b></div>
                 <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => {handleImport(e); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,
@@ -79,7 +79,7 @@ function DashboardNav({csvData, setCsvData, analysisTarget, setAnalysisTarget, s
     :
     (
         <>
-            <div><b>Select Faculty CSV File</b></div>
+            <div className="category-label"><b>Select Faculty CSV File</b></div>
             <input type = "file" name="csvfile" className="csv-file-input" id="csv-file-input" onChange={(e) => {handleImport(e); setResult({"grades": [],"ratings": [],
             "fatMarks": [],
             "mean": 0,

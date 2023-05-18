@@ -36,3 +36,7 @@
     font-weight: 300;
     border-radius: 8px;
 }
+
+.category-label {
+    margin-bottom: 10px;
+}
