@@ -22,5 +22,5 @@ urlpatterns = [
 ]
 
 urlpatterns = [ 
-    re_path(r'^', include('studentModels.urls')),
+    re_path(r'^', include('Models.urls')),
 ]

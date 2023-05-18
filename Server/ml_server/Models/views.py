@@ -45,7 +45,7 @@ def gradePredTheory(request):
         studentRecord = []
 
     # importing the model for fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-theory.pkl', 'rb')
     pickled_model = pickle.load(model)
     model.close()
 
@@ -147,7 +147,7 @@ def gradePredTL(request):
     # print("Lab", studentDataListLab)
 
     # importing the model for theory fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-theory.pkl', 'rb')
     pickled_model_theory = pickle.load(model)
     model.close()
 
@@ -165,7 +165,7 @@ def gradePredTL(request):
     totPred = internal + (0.4)*y_pred_fat
 
 # importing the model for lab fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-TL.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-TL.pkl', 'rb')
     pickled_model_lab = pickle.load(model)
     model.close()
 
@@ -271,7 +271,7 @@ def gradePredTLJ(request):
     # print("J", studentDataListJ)
 
     # importing the model for theory fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-theory.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-theory.pkl', 'rb')
     pickled_model_theory = pickle.load(model)
     model.close()
 
@@ -289,7 +289,7 @@ def gradePredTLJ(request):
     totPred = internal + (0.4)*y_pred_fat
 
     # importing the model for lab fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-TL.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-TL.pkl', 'rb')
     pickled_model_lab = pickle.load(model)
     model.close()
 
@@ -297,7 +297,7 @@ def gradePredTLJ(request):
     y_pred_lab = pickled_model_lab.predict(studentDataListLab)
 
     # importing the model for final review marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\student-TLJ.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\student-TLJ.pkl', 'rb')
     pickled_model_J = pickle.load(model)
     model.close()
 
@@ -408,7 +408,7 @@ def facultyScore(request):
         facultyRecord = []
 
     # importing the model for fat marks predicition
-    model = open(r'C:\Users\yashs\Documents\D-Drive\Sem 6\WM\Student Analysis Dashboard\model_server\ml_server\studentModels\faculty.pkl', 'rb')
+    model = open(r'D:\My_Stuff\Work\VIT\WM\Student Analysis Dashboard\Server\ml_server\Models\faculty.pkl', 'rb')
     pickled_model_fac = pickle.load(model)
     model.close()
 

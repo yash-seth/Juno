@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'studentModels',
+    'Models',
     'rest_framework',
     'corsheaders'
 ]
