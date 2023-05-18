@@ -1,6 +1,6 @@
 # Juno
 ## Description
-Juno, is an AI Powered Performance Analysis Dashboard, built to aid student and faculties to analyse their perfomance trends with respect to them as an individual and with respect to peers
+Juno, is an AI Powered Performance Analysis Dashboard, built to aid student and faculties to analyse their performance trends with respect to them as an individual and with respect to peers
 
 ## Use Cases
 ### Students
